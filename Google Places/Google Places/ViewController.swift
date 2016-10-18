@@ -12,7 +12,9 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
+        //Get data when the internet when the view loads
+        NetworkManager.getData()
     }
 
     override func didReceiveMemoryWarning() {
