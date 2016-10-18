@@ -27,7 +27,6 @@ class NetworkManagerModel: NSObject {
                 else{
                     //Check if the name and address exist
                     if(json["results"][0]["formatted_address"].exists() && json["results"][0]["name"].exists()){
-                        print(json["results"][0]["formatted_address"].string)
                         let address:String = json["results"][0]["formatted_address"].string!
                         let name:String = json["results"][0]["name"].string!
                         
