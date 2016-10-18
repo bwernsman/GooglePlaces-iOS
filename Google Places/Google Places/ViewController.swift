@@ -14,7 +14,15 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         //Get data when the internet when the view loads
-        NetworkManager.getData()
+        NetworkManager.getData({ (response) in
+            if(response.status){
+                print(response.address)
+                print(response.name)
+            }
+            else{
+                print("Network Error")
+            }
+        })
     }
 
     override func didReceiveMemoryWarning() {
