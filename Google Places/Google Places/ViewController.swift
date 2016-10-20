@@ -15,12 +15,14 @@ class ViewController: UIViewController {
         
         //Get data when the internet when the view loads
         NetworkManager.getData({ (response) in
-            if(response.status){
-                print(response.address)
-                print(response.name)
-            }
-            else{
-                print("Network Error")
+            
+            let status:[Bool] = response.status
+            let address:[String] = response.address
+            let name:[String] = response.name
+            
+            for i in 0 ..< name.count{
+                print(address[i])
+                print(name[i])
             }
         })
     }

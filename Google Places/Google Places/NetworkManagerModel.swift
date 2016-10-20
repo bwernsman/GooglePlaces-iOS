@@ -11,10 +11,13 @@ import Alamofire
 import SwiftyJSON
 
 class NetworkManagerModel: NSObject {
-    let baseURL:String = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=gregory%20gym%20ut&type=gym&key=AIzaSyD_6C0Xh22Z-eqDOiXwMz1qzXYgjY_ShGk"
+    let baseURL:String = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=24%20fitness&type=gym&key=AIzaSyD_6C0Xh22Z-eqDOiXwMz1qzXYgjY_ShGk"
 
-    func getData(callback: (status:Bool, address:String, name:String) -> ()) {
+    func getData(callback: (status:[Bool], address:[String], name:[String]) -> ()) {
         var json:JSON = nil
+        var status:[Bool]  = []
+        var address:[String]  = []
+        var name:[String]  = []
         Alamofire.request(.GET, baseURL,encoding: .JSON).responseJSON {response in
             if(response.result.error != nil){
                 print("Network Error")
@@ -25,15 +28,35 @@ class NetworkManagerModel: NSObject {
                     print("Parse Error")
                 }
                 else{
-                    //Check if the name and address exist
-                    if(json["results"][0]["formatted_address"].exists() && json["results"][0]["name"].exists()){
-                        let address:String = json["results"][0]["formatted_address"].string!
-                        let name:String = json["results"][0]["name"].string!
-                        return callback(status: true, address: address, name: name)
+                    
+                    let count:Int = (json["results"].array?.count)!
+                    
+                    if(count == 0){
+                        print("No places found!!")
                     }
+                    else{
+                        for i in 0 ..< count {
+                            //Check if the name and address exist
+                            if(json["results"][i]["formatted_address"].exists() && json["results"][i]["name"].exists()){
+                                let addressName:String = json["results"][i]["formatted_address"].string!
+                                let nameName:String = json["results"][i]["name"].string!
+                                
+                                print(address)
+                                print(name)
+                                
+                                status.append(true)
+                                address.append(addressName)
+                                name.append(nameName)
+                            
+                            }
+                        }
+                        
+                    }
+                    
+                    return callback(status: status, address: address, name: name)
                 }
             }
-            return callback(status: false, address: "", name: "")
+            return callback(status: [false], address: [""], name: [""])
         }
     }
 
