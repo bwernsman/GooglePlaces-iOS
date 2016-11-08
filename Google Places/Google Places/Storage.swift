@@ -12,6 +12,7 @@ import Foundation
 class Storage{
     var apiKey:String = ""
     var gyms:[(name:String, gymId:String, location:String)] = []
+    var userLocation:(found:Bool, lat:String, long:String) = (found: false, lat:"", long:"")
 }
 
 var storageModel = Storage()

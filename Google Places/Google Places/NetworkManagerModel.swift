@@ -13,9 +13,19 @@ import SwiftyJSON
 class NetworkManagerModel: NSObject {
     
     func getData(userInput:String, callback: (status:Bool) -> ()) {
-        var json:JSON = nil
-        let baseURL:String = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=" + userInput + "&type=gym&key=" + storageModel.apiKey
+        
         storageModel.gyms = []
+        var json:JSON = nil
+        var baseURL:String = ""
+        
+        if(storageModel.userLocation.found){
+            //If they have location enabled
+            baseURL = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=" + userInput + "&location=" + storageModel.userLocation.lat + "," +  storageModel.userLocation.long + "&radius=24140&type=gym&key=" + storageModel.apiKey
+        }
+        else{
+            //If location is not enabled
+            baseURL = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=" + userInput + "&type=gym&key=" + storageModel.apiKey
+        }
         
         Alamofire.request(.GET, baseURL,encoding: .JSON).responseJSON {response in
             if(response.result.error != nil){

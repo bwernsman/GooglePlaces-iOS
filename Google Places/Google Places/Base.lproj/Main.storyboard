@@ -17,6 +17,9 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="WIo-XW-mDb">
+                                <rect key="frame" x="0.0" y="324" width="375" height="20"/>
+                            </activityIndicatorView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Ktx-Dj-7HB">
                                 <rect key="frame" x="0.0" y="20" width="375" height="647"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -50,15 +53,19 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="Ktx-Dj-7HB" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="LUT-Mt-mnx"/>
-                            <constraint firstItem="Ktx-Dj-7HB" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="mDQ-dQ-XNr"/>
-                            <constraint firstAttribute="trailing" secondItem="Ktx-Dj-7HB" secondAttribute="trailing" id="nhZ-iw-j5K"/>
-                            <constraint firstItem="Ktx-Dj-7HB" firstAttribute="bottom" secondItem="wfy-db-euE" secondAttribute="top" id="pO2-SF-Q6E"/>
+                            <constraint firstItem="Ktx-Dj-7HB" firstAttribute="bottom" secondItem="wfy-db-euE" secondAttribute="top" id="DBg-hU-gq3"/>
+                            <constraint firstItem="Ktx-Dj-7HB" firstAttribute="leading" secondItem="WIo-XW-mDb" secondAttribute="leading" id="Msq-Gg-ehq"/>
+                            <constraint firstItem="WIo-XW-mDb" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="SKi-nQ-Bvz"/>
+                            <constraint firstItem="Ktx-Dj-7HB" firstAttribute="trailing" secondItem="WIo-XW-mDb" secondAttribute="trailing" id="Uhw-BX-nyQ"/>
+                            <constraint firstAttribute="trailing" secondItem="Ktx-Dj-7HB" secondAttribute="trailing" id="Z3E-Qg-4MZ"/>
+                            <constraint firstItem="Ktx-Dj-7HB" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="gCx-x9-LEF"/>
+                            <constraint firstItem="Ktx-Dj-7HB" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="yVM-33-dM3"/>
                         </constraints>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
                         <outlet property="TableView" destination="Ktx-Dj-7HB" id="nU5-sm-NBB"/>
+                        <outlet property="activityIndicator" destination="WIo-XW-mDb" id="gN6-aO-QJG"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
