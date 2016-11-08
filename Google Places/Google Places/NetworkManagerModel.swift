@@ -11,55 +11,48 @@ import Alamofire
 import SwiftyJSON
 
 class NetworkManagerModel: NSObject {
-    let baseURL:String = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=24%20fitness&type=gym&key=AIzaSyD_6C0Xh22Z-eqDOiXwMz1qzXYgjY_ShGk"
-
-    func getData(callback: (status:[Bool], address:[String], name:[String]) -> ()) {
+    
+    func getData(userInput:String, callback: (status:Bool) -> ()) {
         var json:JSON = nil
-        var status:[Bool]  = []
-        var address:[String]  = []
-        var name:[String]  = []
+        let baseURL:String = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=" + userInput + "&type=gym&key=" + storageModel.apiKey
+        storageModel.gyms = []
+        
         Alamofire.request(.GET, baseURL,encoding: .JSON).responseJSON {response in
             if(response.result.error != nil){
                 print("Network Error")
+                return callback(status: false)
             }
             else{
                 json = JSON(data: response.data!)
                 if(json == nil){
                     print("Parse Error")
+                    return callback(status: false)
                 }
                 else{
-                    
                     let count:Int = (json["results"].array?.count)!
                     
                     if(count == 0){
                         print("No places found!!")
+                        return callback(status: false)
                     }
                     else{
                         for i in 0 ..< count {
-                            //Check if the name and address exist
-                            if(json["results"][i]["formatted_address"].exists() && json["results"][i]["name"].exists()){
-                                let addressName:String = json["results"][i]["formatted_address"].string!
-                                let nameName:String = json["results"][i]["name"].string!
+                            if(json["results"][i]["formatted_address"].exists() && json["results"][i]["name"].exists() && json["results"][i]["id"].exists()){
                                 
-                                print(address)
-                                print(name)
+                                let gymName:String = json["results"][i]["name"].string!
+                                let gymAddress:String = json["results"][i]["formatted_address"].string!
+                                let gymId:String = json["results"][i]["id"].string!
                                 
-                                status.append(true)
-                                address.append(addressName)
-                                name.append(nameName)
-                            
+                                storageModel.gyms.append((name: gymName, gymId: gymId, location: gymAddress))
                             }
                         }
                         
                     }
-                    
-                    return callback(status: status, address: address, name: name)
+                    return callback(status: true)
                 }
             }
-            return callback(status: [false], address: [""], name: [""])
         }
     }
-
 }
 
 var NetworkManager = NetworkManagerModel()

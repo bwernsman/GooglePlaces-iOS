@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		379DBDE81DD241E100D8CDB4 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 379DBDE71DD241E100D8CDB4 /* Config.swift */; };
+		379DBDEA1DD241E700D8CDB4 /* ConfigInfo.json in Resources */ = {isa = PBXBuildFile; fileRef = 379DBDE91DD241E700D8CDB4 /* ConfigInfo.json */; };
+		379DBDEC1DD2429400D8CDB4 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 379DBDEB1DD2429400D8CDB4 /* Storage.swift */; };
 		37D246A31DB6B05D00511AF0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37D246A21DB6B05D00511AF0 /* AppDelegate.swift */; };
 		37D246A51DB6B05D00511AF0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37D246A41DB6B05D00511AF0 /* ViewController.swift */; };
 		37D246A81DB6B05D00511AF0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 37D246A61DB6B05D00511AF0 /* Main.storyboard */; };
@@ -18,6 +21,9 @@
 
 /* Begin PBXFileReference section */
 		0A06E0C7FB4AF9128C2E28A1 /* Pods_Google_Places.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Google_Places.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		379DBDE71DD241E100D8CDB4 /* Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
+		379DBDE91DD241E700D8CDB4 /* ConfigInfo.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = ConfigInfo.json; sourceTree = "<group>"; };
+		379DBDEB1DD2429400D8CDB4 /* Storage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
 		37D2469F1DB6B05D00511AF0 /* Google Places.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Google Places.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		37D246A21DB6B05D00511AF0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		37D246A41DB6B05D00511AF0 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -42,6 +48,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		379DBDE61DD241D600D8CDB4 /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				379DBDE91DD241E700D8CDB4 /* ConfigInfo.json */,
+				379DBDE71DD241E100D8CDB4 /* Config.swift */,
+			);
+			name = Config;
+			sourceTree = "<group>";
+		};
 		37D246961DB6B05D00511AF0 = {
 			isa = PBXGroup;
 			children = (
@@ -63,10 +78,10 @@
 		37D246A11DB6B05D00511AF0 /* Google Places */ = {
 			isa = PBXGroup;
 			children = (
+				37D246A21DB6B05D00511AF0 /* AppDelegate.swift */,
+				379DBDE61DD241D600D8CDB4 /* Config */,
 				37D246B51DB6B12000511AF0 /* View */,
 				37D246B41DB6B11500511AF0 /* Model */,
-				37D246A21DB6B05D00511AF0 /* AppDelegate.swift */,
-				37D246A61DB6B05D00511AF0 /* Main.storyboard */,
 				37D246A91DB6B05D00511AF0 /* Assets.xcassets */,
 				37D246AB1DB6B05D00511AF0 /* LaunchScreen.storyboard */,
 				37D246AE1DB6B05D00511AF0 /* Info.plist */,
@@ -78,6 +93,7 @@
 			isa = PBXGroup;
 			children = (
 				37D246B61DB6B13300511AF0 /* NetworkManagerModel.swift */,
+				379DBDEB1DD2429400D8CDB4 /* Storage.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -85,6 +101,7 @@
 		37D246B51DB6B12000511AF0 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				37D246A61DB6B05D00511AF0 /* Main.storyboard */,
 				37D246A41DB6B05D00511AF0 /* ViewController.swift */,
 			);
 			name = View;
@@ -169,6 +186,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				37D246AD1DB6B05D00511AF0 /* LaunchScreen.storyboard in Resources */,
+				379DBDEA1DD241E700D8CDB4 /* ConfigInfo.json in Resources */,
 				37D246AA1DB6B05D00511AF0 /* Assets.xcassets in Resources */,
 				37D246A81DB6B05D00511AF0 /* Main.storyboard in Resources */,
 			);
@@ -230,8 +248,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				37D246B71DB6B13300511AF0 /* NetworkManagerModel.swift in Sources */,
+				379DBDE81DD241E100D8CDB4 /* Config.swift in Sources */,
 				37D246A51DB6B05D00511AF0 /* ViewController.swift in Sources */,
 				37D246A31DB6B05D00511AF0 /* AppDelegate.swift in Sources */,
+				379DBDEC1DD2429400D8CDB4 /* Storage.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
