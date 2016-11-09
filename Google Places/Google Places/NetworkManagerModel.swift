@@ -12,9 +12,9 @@ import SwiftyJSON
 
 class NetworkManagerModel: NSObject {
     
-    func getData(userInput:String, callback: (status:Bool) -> ()) {
+    func getData(userInput:String, callback: (status:Bool, gyms:[(name:String, gymId:String, location:String)]) -> ()) {
         
-        storageModel.gyms = []
+        var gyms:[(name:String, gymId:String, location:String)] = []
         var json:JSON = nil
         var baseURL:String = ""
         
@@ -30,20 +30,20 @@ class NetworkManagerModel: NSObject {
         Alamofire.request(.GET, baseURL,encoding: .JSON).responseJSON {response in
             if(response.result.error != nil){
                 print("Network Error")
-                return callback(status: false)
+                return callback(status: false, gyms: gyms)
             }
             else{
                 json = JSON(data: response.data!)
                 if(json == nil){
                     print("Parse Error")
-                    return callback(status: false)
+                    return callback(status: false, gyms: gyms)
                 }
                 else{
                     let count:Int = (json["results"].array?.count)!
                     
                     if(count == 0){
                         print("No places found!!")
-                        return callback(status: false)
+                        return callback(status: false, gyms: gyms)
                     }
                     else{
                         for i in 0 ..< count {
@@ -53,12 +53,12 @@ class NetworkManagerModel: NSObject {
                                 let gymAddress:String = json["results"][i]["formatted_address"].string!
                                 let gymId:String = json["results"][i]["id"].string!
                                 
-                                storageModel.gyms.append((name: gymName, gymId: gymId, location: gymAddress))
+                                gyms.append((name: gymName, gymId: gymId, location: gymAddress))
                             }
                         }
                         
                     }
-                    return callback(status: true)
+                    return callback(status: true, gyms: gyms)
                 }
             }
         }

@@ -17,7 +17,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     var searchController = UISearchController()
     var locationManager: CLLocationManager!
     
-    var useLocation:Bool = false
+    var gyms:[(name:String, gymId:String, location:String)] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,27 +52,27 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             locationManager.startUpdatingLocation()
         }
         else{
-            print("Tell user that they need to activate location if they want better results")
             //But we can load gyms not using location
             //The gyms might just not be near them
+            showAlert("Alert",message: "Location is not activated, gyms will still appear but we can't give you results near you :(")
             loadGyms()
         }
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell : UITableViewCell = tableView.dequeueReusableCellWithIdentifier("cell")!
-        cell.textLabel?.text = storageModel.gyms[indexPath.row].name
-        cell.detailTextLabel?.text = storageModel.gyms[indexPath.row].location
+        cell.textLabel?.text = gyms[indexPath.row].name
+        cell.detailTextLabel?.text = gyms[indexPath.row].location
         return cell
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        print(storageModel.gyms[indexPath.row].gymId)
+        print(gyms[indexPath.row].gymId)
         //navigationController?.popViewControllerAnimated(false)
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return storageModel.gyms.count
+        return gyms.count
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -85,9 +85,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         storageModel.userLocation.long = String(locationValue.longitude)
         storageModel.userLocation.lat = String(locationValue.latitude)
         
-        print(storageModel.userLocation.long)
-        print(storageModel.userLocation.lat)
-        
         //Stop getting the users location once we have it, no need to check multiple times
         locationManager.stopUpdatingLocation()
         
@@ -95,26 +92,63 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         loadGyms()
     }
     
+    //Called if there is an error getting the users location
     func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
-        print("An error occurred getting location")
+        showAlert("Alert",message: "Error getting location, showing gyms in the US :(")
+        loadGyms()
     }
     
     func loadGyms(){
         //Get data when we get the users location
         NetworkManager.getData("", callback: { (response) in
-            if(response.boolValue){
+            if(response.status){
+                self.gyms = response.gyms
                 //Stop activity indicator and show tableview
                 self.activityIndicator.stopAnimating()
                 self.TableView.alpha = 1.0
                 //Reload table because we have new data now
                 self.TableView.reloadData()
             }
+            else{
+                print("An error occured")
+            }
         })
+    }
+    
+    //Update the list based on what the user types in
+    //If the user runs out of gyms, we load more gyms in via the Google API
+    func searchElements(input:String){
+        gyms = gyms.filter {
+            $0.name.lowercaseString.rangeOfString(input.lowercaseString) != nil
+        }
+        
+        if(gyms.count != 0){
+            self.TableView.reloadData()
+        }
+        else{
+            //Encode the URL becuase a " " (space) will crash the application
+            let encodedURL:String = input.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())!
+            
+            //Get data when the user starts typing
+            NetworkManager.getData(encodedURL, callback: { (response) in
+                if(response.status){
+                    self.gyms = response.gyms
+                    self.TableView.reloadData()
+                }
+            })
+        }
     }
     
     // Dispose of any resources that can be recreated.
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+    }
+    
+    //Show alert
+    func showAlert(title:String, message:String){
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
+        alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default,handler: nil))
+        self.presentViewController(alertController, animated: true, completion: nil)
     }
 }
 
@@ -123,15 +157,7 @@ extension ViewController: UISearchResultsUpdating {
         
         //Only update gyms if the user started typing
         if(searchController.searchBar.text! != ""){
-            //Encode the URL becuase a " " (space) will crash the application
-            let encodedURL:String = searchController.searchBar.text!.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())!
-            
-            //Get data when the user starts typing
-            NetworkManager.getData(encodedURL, callback: { (response) in
-                if(response.boolValue){
-                    self.TableView.reloadData()
-                }
-            })
+            searchElements(String(searchController.searchBar.text!))
         }
         
     }
